@@ -18,29 +18,29 @@ pipeline {
             }
         }
 
-        stage('Install Python Dependencies') {
-            steps {
-                sh 'pip install -r requirements.txt'
-            }
-        }
+stage('Install Python Dependencies') {
+    steps {
+        sh 'python3 -m pip install -r requirements.txt'
+    }
+}
 
-        stage('Run Unit Tests') {
-            steps {
-                sh 'PYTHONPATH=. pytest'
-            }
-        }
+stage('Run Unit Tests') {
+    steps {
+        sh 'PYTHONPATH=. python3 -m pytest'
+    }
+}
 
-        stage('Security Scan with Bandit') {
-            steps {
-                sh 'bandit -r .'
-            }
-        }
+stage('Security Scan with Bandit') {
+    steps {
+        sh 'python3 -m bandit -r .'
+    }
+}
 
-        stage('Dependency Vulnerability Scan') {
-            steps {
-                sh 'pip-audit -r requirements.txt || true'
-            }
-        }
+stage('Dependency Vulnerability Scan') {
+    steps {
+        sh 'python3 -m pip_audit -r requirements.txt || true'
+    }
+}
 
         stage('Build Docker Image') {
             steps {
