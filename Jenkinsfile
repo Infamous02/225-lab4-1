@@ -63,13 +63,24 @@ stage('Dependency Vulnerability Scan') {
         }
 
         stage('Deploy to Dev Environment') {
-            steps {
-                script {
-                    sh "sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-dev.yaml"
-                    sh "kubectl apply -f deployment-dev.yaml"
-                }
-            }
+    steps {
+        script {
+            sh "sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-dev.yaml"
+            sh "kubectl apply -f deployment-dev.yaml"
+            sh "kubectl rollout status deployment/flask-deployment"
         }
+    }
+}
+
+stage('Deploy to Prod Environment') {
+    steps {
+        script {
+            sh "sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-prod.yaml"
+            sh "kubectl apply -f deployment-prod.yaml"
+            sh "kubectl rollout status deployment/prod-deployment"
+        }
+    }
+}
         
         stage('Check Kubernetes Cluster') {
             steps {
