@@ -15,7 +15,7 @@ spec:
       containers:
       - name: nginx
         image: cithit/gentrywh:latest
-        command: ["/bin/sh", "-c", "cp /index.html /style.css /usr/share/nginx/html/ && nginx -g 'daemon off;'"]
+        command: ["/bin/sh", "-c", "cp /index.html /style.css /var/www/html/ && nginx -g 'daemon off;'"]
         ports:
         - containerPort: 80
 ---
@@ -32,3 +32,4 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 80
+
